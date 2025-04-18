@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="11style.css">
+    <title>Книжный интернет-магазин</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="Frame 2726.png" alt="Логотип">
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="10index.html">Главная</a></li>
+            <li><a href="#">Каталоги</a></li>
+            <li><a href="12index.html">Контакты</a></li>
+            <li><a href="#">Отзывы</a></li>
+            <li><a href="#">Избранные</a></li>
+            <li><a href="cart.html">Корзина <span id="cartCounter" class="cart-count">0</span></a></li>
+        </ul>
+    </nav>
+
+    <section class="book-category">
+        <h2>Новинки</h2>
+        <div class="books">
+            <div class="book-card" onclick="showBookModal('Благословение Небожителей 4', 'Мосян Тунсю', 700, 'нов2.png')">
+                <img src="нов2.png" alt="Благословение Небожителей 4">
+                <h3>Благословение Небожителей 4</h3>
+                <p>Мосян Тунсю</p>
+                <button>700 р.</button>
+            </div>
+            
+            <div class="book-card" onclick="showBookModal('На моих условиях', 'Настя Орлова', 500, 'нов1.png')">
+                <img src="нов1.png" alt="На моих условиях">
+                <h3>На моих условиях</h3>
+                <p>Настя Орлова</p>
+                <button>500 р.</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальное окно -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalBookTitle"></h2>
+            <p><strong>Автор:</strong> <span id="modalBookAuthor"></span></p>
+            <p><strong>Цена:</strong> <span id="modalBookPrice"></span> руб.</p>
+            <p><strong>Наличие:</strong> Не указано</p>
+            <button onclick="addToCart()">В корзину</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h2>Книжный интернет-магазин</h2>
+        <p>«Мир книг» — волшебное место, где каждая страница открывает новые горизонты!</p>
+    </div>
+
+    <script src="11script.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="11style.css">
+    <title>Корзина</title>
+    <style>
+        .cart-items {
+            width: 80%;
+            margin: 20px auto;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ABCDEF;
+            padding-bottom: 15px;
+        }
+        
+        .cart-item img {
+            width: 80px;
+            height: 120px;
+            margin-right: 20px;
+        }
+        
+        .cart-item-info {
+            flex-grow: 1;
+        }
+        
+        .cart-summary {
+            text-align: right;
+            margin-right: 10%;
+            font-size: 20px;
+        }
+        
+        .discount-section {
+            margin: 20px 0;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            font-size: 24px;
+            margin: 50px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="Frame 2726.png" alt="Логотип">
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="10index.html">Главная</a></li>
+            <li><a href="#">Каталоги</a></li>
+            <li><a href="8index.html">Контакты</a></li>
+            <li><a href="cart.html">Корзина <span id="cartCounter" class="cart-count">0</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="cart-items" id="cartItemsContainer">
+        <!-- Товары будут добавляться здесь -->
+    </div>
+
+    <div id="emptyCartMessage" class="empty-cart">
+        Ваша корзина пуста
+    </div>
+
+    <div id="cartSummary" style="display: none;">
+        <div class="discount-section">
+            <input type="text" id="discountCode" placeholder="Введите промокод">
+            <button onclick="applyDiscount()">Применить</button>
+        </div>
+        
+        <div class="cart-summary">
+            <p>Итого: <span id="totalPrice">0</span> руб.</p>
+            <p id="discountMessage" style="display: none; color: #FFCfab;">Скидка 10% применена</p>
+            <button onclick="checkout()">Оформить заказ</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h2>Книжный интернет-магазин</h2>
+        <p>«Мир книг» — волшебное место, где каждая страница открывает новые горизонты!</p>
+    </div>
+
+    <script src="11script.js"></script>
+    <script>
+        // Загрузка корзины при открытии страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCart();
+        });
+
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const container = document.getElementById('cartItemsContainer');
+            const emptyMsg = document.getElementById('emptyCartMessage');
+            const summary = document.getElementById('cartSummary');
+
+            if (cart.length === 0) {
+                emptyMsg.style.display = 'block';
+                summary.style.display = 'none';
+                return;
+            }
+
+            emptyMsg.style.display = 'none';
+            summary.style.display = 'block';
+            container.innerHTML = '';
+
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="cart-item-info">
+                        <h3>${item.title}</h3>
+                        <p>${item.author}</p>
+                    </div>
+                    <div class="price">${item.price} руб.</div>
+                    <button onclick="removeFromCart('${item.id}')">×</button>
+                `;
+                
+                container.appendChild(itemElement);
+            });
+
+            document.getElementById('totalPrice').textContent = total;
+            updateCartCounter();
+        }
+
+        function applyDiscount() {
+            const code = document.getElementById('discountCode').value;
+            if (code === 'BOOK10') {
+                // Дефект: скидка не применяется
+                document.getElementById('discountMessage').style.display = 'block';
+                console.log('Дефект: скидка не применена к итоговой сумме');
+            } else {
+                alert('Неверный промокод');
+            }
+        }
+
+        function removeFromCart(bookId) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart = cart.filter(item => item.id !== bookId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function checkout() {
+            alert('Заказ оформлен (в реальной системе здесь была бы оплата)');
+        }
+    </script>
+</body>
+</html>
